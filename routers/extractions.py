@@ -7,7 +7,13 @@ from models import Extraction, ExtractionStatus
 from shemas import ExtractionOut,ExtractionListOut
 from services.extraction import ExtractionError, extract
 
-router = APIRouter(prefix="/extractions", tags=["extractions"])
+from auth import require_api_key
+
+router = APIRouter(
+    prefix="/extractions",
+    tags=["extractions"],
+    dependencies=[Depends(require_api_key)],
+)
 
 
 @router.post("", response_model=ExtractionOut, status_code=status.HTTP_201_CREATED)
